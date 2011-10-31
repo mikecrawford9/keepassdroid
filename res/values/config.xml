@@ -33,6 +33,8 @@
     <string name="app_timeout_key">app_timeout_key</string>
     <string name="clipboard_timeout_key">clip_timeout_key</string>
     <string name="db_key">db</string>
+    <string name="dav_hostname_key">dav_hostname</string>
+    <string name="dav_sync_key">dav_sync</string>
     <string name="rounds_key">rounds</string>
     <string name="keyfile_key">keyfile</string>
     <string name="maskpass_key">maskpass</string>

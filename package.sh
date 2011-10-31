@@ -15,7 +15,7 @@ then
 fi
 
 # rebuild JNI shared objects, if applicable
-if [ -d "jni" ]
+if [ ! -f "./libs/armeabi/libfinal-key.so" ]
 then
   rm -rf obj libs/*/*.so
   ndk-build
@@ -37,6 +37,6 @@ ant release
 if [ "${1}" == "push" ]
 then
   # push to device and wait for status messages
-  adb install -r ./bin/davsync-release.apk
+  adb install -r ./bin/KeePassDroid-release.apk
   adb logcat
 fi

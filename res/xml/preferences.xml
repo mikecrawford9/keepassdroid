@@ -79,4 +79,14 @@
 		  android:title="@string/omitbackup_title" 
 		  android:key="@string/omitbackup_key"/>
 	</PreferenceScreen>
+	<PreferenceScreen
+	  android:key="@string/dav_sync_key"
+	  android:title="@string/dav_sync_name"
+	  android:summary="@string/menu_dav_sync_settings">
+		<EditTextPreference
+		  android:key="dav_hostname_key"
+		  android:title="@string/dav_hostname"
+		  android:summary="@string/dav_hostname_summary"
+		  android:dialogTitle="@string/dav_hostname_title" />
+	</PreferenceScreen>
 </PreferenceScreen>
