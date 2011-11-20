@@ -40,12 +40,13 @@ public class DAVNetwork {
 	private Credentials creds;
 	HttpClient client;
 	
-	public DAVNetwork(Profile profile) {
+	public DAVNetwork(Profile profile, File kpfile) {
 		url = "https://" + profile.getHostname() + profile.getResource();
 		creds = new UsernamePasswordCredentials(profile.getUsername(), profile.getPassword());
 		File sdcard = Environment.getExternalStorageDirectory();
-		path = new File( sdcard.getAbsolutePath() + profile.getResource() );
-		path.getParentFile().mkdirs();
+		path = kpfile;
+		//no need to create dirs since the file MUST already exist...
+		//path.getParentFile().mkdirs();
 		client = new HttpClient();
 		client.getState().setCredentials(AuthScope.ANY, creds);
 		client.getHttpConnectionManager().getParams().setConnectionTimeout(5000);

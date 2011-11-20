@@ -30,7 +30,7 @@
           <Button
               android:id="@+id/wdc_clear"
               style="@style/DAVPrefsButton"
-              android:background="@drawable/btn_green"
+              android:background="@drawable/btn_purple"
               android:text="Clear" />
 
           <Button

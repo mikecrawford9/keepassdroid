@@ -159,7 +159,7 @@ public class PasswordActivity extends LockingActivity {
 			syncbutton.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					DAVNetwork net = new DAVNetwork(prof);
+					DAVNetwork net = new DAVNetwork(prof, new File(mFileName));
 					try {
 						if(net.sync())
 							worked.show();
@@ -199,7 +199,8 @@ public class PasswordActivity extends LockingActivity {
 			
 			public void onClick(View v) {
 				Intent x = new Intent(PasswordActivity.this, edu.sjsu.cs.davsync.davsync.class);
-				x.putExtra("wdcfile",confpath); 
+				x.putExtra("wdcfile",confpath);
+				x.putExtra("kdbfile",mFileName); 
 					startActivityForResult(x, 0);
 			}
 		});

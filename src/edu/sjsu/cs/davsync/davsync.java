@@ -23,6 +23,7 @@ public class davsync extends Activity {
 
     private Context context;
     private File conffile;
+    private File kdbfile;
     protected boolean changed;
     //private DSDatabase db;
     private EditText[] field = new EditText[4]; // hostname, resource, username, password
@@ -64,6 +65,13 @@ public class davsync extends Activity {
     }
     
     private void save() {
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("saving?")
+		       .setCancelable(true);
+		AlertDialog alert = builder.create();
+		alert.show();
+    	
     	Properties props = new Properties();
     	props.put("hostname",field[0].getText().toString());
     	props.put("resource",field[1].getText().toString()); 
@@ -90,7 +98,7 @@ public class davsync extends Activity {
     private void test() {
     	Toast toast = Toast.makeText(context, "Unspecified test failure", Toast.LENGTH_SHORT);
     	try {
-			DAVNetwork net = new DAVNetwork(getCurrentProfile());
+			DAVNetwork net = new DAVNetwork(getCurrentProfile(), kdbfile);
 			if( net.testRemote() ) {
 				toast = Toast.makeText(context, "Test succeeded", Toast.LENGTH_SHORT);
 			} else {
@@ -106,7 +114,7 @@ public class davsync extends Activity {
     private void sync() {
     	Toast toast = Toast.makeText(context, "Unspecified test failure", Toast.LENGTH_SHORT);
     	try {
-    		DAVNetwork net = new DAVNetwork(getCurrentProfile());
+    		DAVNetwork net = new DAVNetwork(getCurrentProfile(), kdbfile);
     		if( net.sync() == true ) {
     			toast = Toast.makeText(context, "Sync succeeded", Toast.LENGTH_SHORT);
     		} else {
@@ -155,7 +163,9 @@ public class davsync extends Activity {
         context = getApplicationContext();
         //db = new DSDatabase(context);
         String filepath = getIntent().getStringExtra("wdcfile");
+        String kdbfilepath = getIntent().getStringExtra("kdbfile");
         conffile = new File(filepath);
+        kdbfile = new File(kdbfilepath);
                 
         /*
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
