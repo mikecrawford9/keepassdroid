@@ -137,8 +137,8 @@ public class davsync extends Activity {
         if( pass.length() == 0 ) {
         	throw new ConfigurationException("please input a valid password");
         }
-        //return new Profile(host, rsrc, user, pass);
-        return null;
+        
+        return new Profile("", host, rsrc, user, pass);
     }
 
     // removes any text from all fields
