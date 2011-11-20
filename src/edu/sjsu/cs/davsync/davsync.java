@@ -67,7 +67,7 @@ public class davsync extends Activity {
     private void save() {
     	
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("saving?")
+		builder.setMessage("Saving...")
 		       .setCancelable(true);
 		AlertDialog alert = builder.create();
 		alert.show();
