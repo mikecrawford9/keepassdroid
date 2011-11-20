@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
 
+    <TableLayout
+        android:id="@+id/tableLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WebDAV Configuration" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" " />
+
+        </TableRow>
+    </TableLayout>
+
   <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
     <TextView android:text="Hostname"    style="@style/DAVPrefsHeading" />
     <EditText android:id="@+id/hostname" style="@style/DAVPrefsEditBox" />
@@ -18,6 +50,19 @@
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:stretchColumns="*" >
+
+      <TableRow
+          android:id="@+id/tableRow5"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" >
+
+          <TextView
+              android:id="@+id/textView4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text=" " />
+
+      </TableRow>
 
       <TableRow android:layout_width="match_parent" >
 
@@ -39,6 +84,7 @@
               android:background="@drawable/btn_yellow"
               android:text="Test" />
       </TableRow>
+
   </TableLayout>
 
   <TableLayout
@@ -66,14 +112,6 @@
           android:layout_height="wrap_content"
           android:layout_weight="1" >
 
-          <TextView
-              android:id="@+id/textView1"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:enabled="false"
-              android:text="You must test this configuration before you can save."
-              android:textAppearance="?android:attr/textAppearanceMedium" />
 
       </TableRow>
   </TableLayout>

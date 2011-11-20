@@ -66,31 +66,44 @@ public class davsync extends Activity {
     
     private void save() {
     	
+    	
+    	try {
+			Profile prof = getCurrentProfile();
+    	
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Saving...")
+			       .setCancelable(true);
+			AlertDialog alert = builder.create();
+			alert.show();		
+			
+	    	Properties props = new Properties();
+	    	props.put("hostname",field[0].getText().toString());
+	    	props.put("resource",field[1].getText().toString()); 
+	    	props.put("username",field[2].getText().toString()); 
+	    	props.put("password",field[3].getText().toString()); 
+	    	try
+	    	{
+	    		if(!conffile.exists())
+	    			conffile.createNewFile();
+	    		
+	    	FileOutputStream fos = new FileOutputStream(conffile);
+	    	props.save(fos, "");
+	    	fos.close();
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	finish();
+    	
+    } catch (ConfigurationException e1) {
+		// TODO Auto-generated catch block
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Saving...")
+		builder.setMessage(e1.getMessage())
 		       .setCancelable(true);
 		AlertDialog alert = builder.create();
-		alert.show();
-    	
-    	Properties props = new Properties();
-    	props.put("hostname",field[0].getText().toString());
-    	props.put("resource",field[1].getText().toString()); 
-    	props.put("username",field[2].getText().toString()); 
-    	props.put("password",field[3].getText().toString()); 
-    	try
-    	{
-    		if(!conffile.exists())
-    			conffile.createNewFile();
-    		
-    	FileOutputStream fos = new FileOutputStream(conffile);
-    	props.save(fos, "");
-    	fos.close();
-    	}
-    	catch(Exception e)
-    	{
-    		e.printStackTrace();
-    	}
-    	finish();
+		alert.show();	
+	}
     }
     
     // TODO: add a dialog during the test
@@ -131,19 +144,19 @@ public class davsync extends Activity {
     private Profile getCurrentProfile() throws ConfigurationException {
         String host = field[0].getText().toString();
         if( ! host.matches("[a-zA-Z0-9.]+") ) {
-        	throw new ConfigurationException("please input a valid hostname");
+        	throw new ConfigurationException("Please input a valid hostname");
         }
         String rsrc = field[1].getText().toString();
         if( ! rsrc.matches("[a-zA-Z0-9./]+") ) {
-        	throw new ConfigurationException("please input a valid resource");
+        	throw new ConfigurationException("Please input a valid resource");
         }
         String user = field[2].getText().toString();
         if( user.length() == 0 ) {
-        	throw new ConfigurationException("please input a valid username");
+        	throw new ConfigurationException("Please input a valid username");
         }
         String pass = field[3].getText().toString();
         if( pass.length() == 0 ) {
-        	throw new ConfigurationException("please input a valid password");
+        	throw new ConfigurationException("Please input a valid password");
         }
         
         return new Profile("", host, rsrc, user, pass);
