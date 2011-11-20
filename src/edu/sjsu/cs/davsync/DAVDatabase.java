@@ -34,7 +34,7 @@ public class DAVDatabase {
 	}
 
 	// save the server info to local storage
-	public void addProfile(Profile p) {
+	public void addProfile(DAVProfile p) {
 		Log.d(TAG, "saving data...");
 		SQLiteDatabase db = dsoh.getWritableDatabase();
 		//db.execSQL("DELETE FROM dav_profiles;"); // FIXME: delete all records until we support multiple profiles
@@ -48,17 +48,17 @@ public class DAVDatabase {
 		db.close();
 	}
 
-	public Profile getProfile(String filename) {
+	public DAVProfile getProfile(String filename) {
 		Log.d(TAG, "retrieving profile...");
 		// can use this to iterate over all rows in cursor: while (c.moveNext()) { ... }
-		Profile p;
+		DAVProfile p;
 		SQLiteDatabase db = dsoh.getReadableDatabase();
 		Cursor c = db.rawQuery("SELECT * FROM dav_profiles LIMIT 1 where filename = '" + filename + "';", null);
 		if( c.getCount() == 0 ) {
 			p = null;
 		} else {
 			c.moveToFirst();
-			p = new Profile(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4));
+			p = new DAVProfile(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4));
 		}
 		c.close();
 		db.close();
@@ -66,7 +66,7 @@ public class DAVDatabase {
 	}
 
 	// clear the fields and delete local storage
-	public void delProfile(Profile p) {
+	public void delProfile(DAVProfile p) {
 		Log.d(TAG, "removing profile...");
 		SQLiteDatabase db = dsoh.getWritableDatabase();
 		// FIXME: for now, just drop all rows from dav_profiles...

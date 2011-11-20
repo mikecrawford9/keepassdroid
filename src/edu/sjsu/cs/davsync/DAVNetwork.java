@@ -40,7 +40,7 @@ public class DAVNetwork {
 	private Credentials creds;
 	HttpClient client;
 	
-	public DAVNetwork(Profile profile, File kpfile) {
+	public DAVNetwork(DAVProfile profile, File kpfile) {
 		url = "https://" + profile.getHostname() + profile.getResource();
 		creds = new UsernamePasswordCredentials(profile.getUsername(), profile.getPassword());
 		//File sdcard = Environment.getExternalStorageDirectory();

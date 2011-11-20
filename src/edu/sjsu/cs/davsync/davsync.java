@@ -69,7 +69,7 @@ public class davsync extends Activity {
     	
     	try {
     		// the following line is only used for validation of the field data 
-			Profile prof = getCurrentProfile();
+			DAVProfile prof = getCurrentProfile();
     	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage("Saving...")
@@ -142,7 +142,7 @@ public class davsync extends Activity {
     }
 
     // read the state of all fields from memory and return a Profile object
-    private Profile getCurrentProfile() throws ConfigurationException {
+    private DAVProfile getCurrentProfile() throws ConfigurationException {
         String host = field[0].getText().toString();
         if( ! host.matches("[a-zA-Z0-9.]+") ) {
         	throw new ConfigurationException("Please input a valid hostname");
@@ -160,7 +160,7 @@ public class davsync extends Activity {
         	throw new ConfigurationException("Please input a valid password");
         }
         
-        return new Profile("", host, rsrc, user, pass);
+        return new DAVProfile("", host, rsrc, user, pass);
     }
 
     // removes any text from all fields

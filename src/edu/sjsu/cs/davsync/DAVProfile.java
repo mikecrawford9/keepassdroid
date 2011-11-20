@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class Profile {
+public class DAVProfile {
 	private String filename, username, password, hostname, resource;
 
-	public Profile(File conf)
+	public DAVProfile(File conf)
 	{
 		try
 		{
@@ -38,7 +38,7 @@ public class Profile {
 	    	return temp;
 	    }
 	
-	public Profile(String filename, String hostname, String resource, String username, String password) {
+	public DAVProfile(String filename, String hostname, String resource, String username, String password) {
 		this.filename = new String(filename);
 		this.username = new String(username);
 		this.password = new String(password);

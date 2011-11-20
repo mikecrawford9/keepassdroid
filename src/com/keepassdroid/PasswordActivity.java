@@ -68,7 +68,7 @@ import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
 
 import edu.sjsu.cs.davsync.DAVNetwork;
-import edu.sjsu.cs.davsync.Profile;
+import edu.sjsu.cs.davsync.DAVProfile;
 import edu.sjsu.cs.davsync.davsync;
 
 public class PasswordActivity extends LockingActivity {
@@ -155,7 +155,7 @@ public class PasswordActivity extends LockingActivity {
 			final AlertDialog worked = new AlertDialog.Builder(this).setTitle("Success!").setMessage("File was synchronized successfully!").create();
 			final AlertDialog failed = new AlertDialog.Builder(this).setTitle("Failure!").setMessage("Unable to synchronize file!").create();
 			
-			final Profile prof = new Profile(webdavconf);
+			final DAVProfile prof = new DAVProfile(webdavconf);
 			syncbutton.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
