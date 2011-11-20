@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DSDatabase {
+public class DAVDatabase {
 
 	// davcync open helper - handles database initialization
 	private class DSOH extends SQLiteOpenHelper {
@@ -29,7 +29,7 @@ public class DSDatabase {
 	private DSOH dsoh;
 
 	// cache the application context in order to access application assets and resources
-	public DSDatabase(Context context) {
+	public DAVDatabase(Context context) {
 		dsoh = new DSOH(context);
 	}
 
