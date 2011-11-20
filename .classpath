@@ -3,5 +3,9 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="libs/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="libs/jackrabbit-webdav-2.3.2.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-jdk14-1.6.4.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
