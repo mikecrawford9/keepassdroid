@@ -68,6 +68,7 @@ public class davsync extends Activity {
     	
     	
     	try {
+    		// the following line is only used for validation of the field data 
 			Profile prof = getCurrentProfile();
     	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);

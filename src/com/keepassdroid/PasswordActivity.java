@@ -165,18 +165,8 @@ public class PasswordActivity extends LockingActivity {
 							worked.show();
 						else
 							failed.show();
-					} catch (HttpException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DavException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					} catch (Exception e) {
+						// FIXME: do something here
 					}
 				}
 			});

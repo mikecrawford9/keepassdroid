@@ -43,7 +43,7 @@ public class DAVNetwork {
 	public DAVNetwork(Profile profile, File kpfile) {
 		url = "https://" + profile.getHostname() + profile.getResource();
 		creds = new UsernamePasswordCredentials(profile.getUsername(), profile.getPassword());
-		File sdcard = Environment.getExternalStorageDirectory();
+		//File sdcard = Environment.getExternalStorageDirectory();
 		path = kpfile;
 		//no need to create dirs since the file MUST already exist...
 		//path.getParentFile().mkdirs();
