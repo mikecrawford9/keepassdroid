@@ -52,10 +52,12 @@ public class DAVNetwork {
 	}
 
 	public boolean testRemote() {
+		final String TAG = "DAVNetwork::testRemote";
 		try {
 			PropFindMethod pfm = new PropFindMethod(url);
             int ret = client.executeMethod(pfm);
 
+            Log.d(TAG, "PropFindMethod returned with " + ret);
             if( (ret == HttpStatus.SC_MULTI_STATUS && pfm.succeeded()) || ret == HttpStatus.SC_NOT_FOUND ) {
             	// not found (404) isn't an error in this sense since it only means
             	// that the remote file doesn't exist - BUT, this means we can log in
