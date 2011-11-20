@@ -11,7 +11,7 @@ fi
 
 if [ ! -f "local.properties" ]
 then
-  android update project --name davsync --target android-9 --path $PWD --subprojects
+  android update project --name KeePassDroid --target android-9 --path $PWD --subprojects
 fi
 
 # rebuild JNI shared objects, if applicable
@@ -27,7 +27,6 @@ then
 fi
 
 # rebuild APK
-ant clean
 ant release
 
 # sign and align APK
