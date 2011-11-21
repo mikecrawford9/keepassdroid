@@ -1,6 +1,5 @@
 package edu.sjsu.cs.davsync;
 
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
@@ -12,11 +11,9 @@ import java.lang.IllegalArgumentException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.Credentials;
@@ -26,12 +23,16 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.MultiStatusResponse;
 import org.apache.jackrabbit.webdav.client.methods.PropFindMethod;
+import org.apache.jackrabbit.webdav.client.methods.PropPatchMethod;
+import org.apache.jackrabbit.webdav.property.DavProperty;
+import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
 import org.apache.jackrabbit.webdav.property.DefaultDavProperty;
 import org.apache.jackrabbit.webdav.property.PropEntry;
-import org.apache.jackrabbit.webdav.util.HttpDateFormat;
+// import org.apache.jackrabbit.webdav.util.HttpDateFormat;
 import org.apache.jackrabbit.webdav.DavException;
 
 public class DAVNetwork {
@@ -106,7 +107,7 @@ public class DAVNetwork {
         	Log.d(TAG, "Downloading remote file");
         	return download(date_remote);
         } else if( has_local == false && has_remote == false ) {
-        	// FIXME: create a new KDB file
+        	// this should never happen
         	Log.d(TAG, "New KDB file creation unimplemented");
         	return false;
         } else {        	
@@ -169,6 +170,27 @@ public class DAVNetwork {
     	pfm.releaseConnection();
         
         return date_remote;
+	}
+	
+	// not working - for now, just set local file's timestamp after sync
+	// http://wiki.apache.org/jackrabbit/WebDAV
+	// http://jackrabbit.apache.org/api/2.2/org/apache/jackrabbit/webdav/client/methods/PropPatchMethod.html
+	private void setRemoteTimestamp() {
+        DavPropertySet newProps = new DavPropertySet();   
+        DavPropertyNameSet removeProperties=new DavPropertyNameSet();
+        
+        DavProperty testProp = new DefaultDavProperty("TheAnswer", "42", DavConstants.NAMESPACE);
+        newProps.add(testProp);
+        PropPatchMethod ppm;
+		try {
+			ppm = new PropPatchMethod("http://www.somehost.com/duff/test4.txt", newProps, removeProperties);
+			client.executeMethod(ppm);
+		} catch (IOException e1) {
+			// TODO
+			return;
+		}
+        
+        Log.d("setRemoteTimestamp", ppm.getStatusCode() + " " + ppm.getStatusText());
 	}
 	
 	// FIXME: set the date on the uploaded file
