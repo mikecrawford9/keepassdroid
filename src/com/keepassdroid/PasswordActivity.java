@@ -67,6 +67,7 @@ import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
 
+import edu.sjsu.cs.davsync.ConfigurationException;
 import edu.sjsu.cs.davsync.DAVNetwork;
 import edu.sjsu.cs.davsync.DAVProfile;
 import edu.sjsu.cs.davsync.davsync;
@@ -146,16 +147,14 @@ public class PasswordActivity extends LockingActivity {
 	/* added by mcrawford */
 	protected void processSyncButtons()
 	{
+		FileDbHelper dbHelp = App.fileDbHelper; // database for recent files
 		Button syncbutton = (Button) findViewById(R.id.sync_button);
-		File webdavconf = new File(mFileName + ".wdc");
-		final String confpath = webdavconf.getAbsolutePath();
-				
-		if(webdavconf.exists())
-		{	
+
+		try {
 			final AlertDialog worked = new AlertDialog.Builder(this).setTitle("Success!").setMessage("File was synchronized successfully!").create();
 			final AlertDialog failed = new AlertDialog.Builder(this).setTitle("Failure!").setMessage("Unable to synchronize file!").create();
 			
-			final DAVProfile prof = new DAVProfile(webdavconf);
+			final DAVProfile prof = dbHelp.getDavProfile(mFileName);
 			syncbutton.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
@@ -175,9 +174,7 @@ public class PasswordActivity extends LockingActivity {
 			syncbutton.setText("Sync");
 			syncbutton.setTextColor(Color.WHITE);
 			///TODO come back to this after webdav is configured.
-		}
-		else
-		{
+		} catch( ConfigurationException ce ) {
 			syncbutton.setEnabled(false);
 			syncbutton.setBackgroundDrawable(null);
 			syncbutton.setText("No WebDAV Configuration Found");
@@ -189,9 +186,8 @@ public class PasswordActivity extends LockingActivity {
 			
 			public void onClick(View v) {
 				Intent x = new Intent(PasswordActivity.this, edu.sjsu.cs.davsync.davsync.class);
-				x.putExtra("wdcfile",confpath);
 				x.putExtra("kdbfile",mFileName); 
-					startActivityForResult(x, 0);
+				startActivityForResult(x, 0);
 			}
 		});
 	}

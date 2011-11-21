@@ -6,37 +6,6 @@ import java.util.Properties;
 
 public class DAVProfile {
 	private String filename, username, password, hostname, resource;
-
-	public DAVProfile(File conf)
-	{
-		try
-		{
-			FileInputStream fin = new FileInputStream(conf);
-			Properties props = new Properties();
-			props.load(fin);
-			fin.close();
-			
-			filename = "";
-			username = getString(props,"username");
-			password = getString(props,"password");
-			hostname = getString(props,"hostname");
-			resource = getString(props,"resource");
-			
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	 public String getString(Properties props, String key)
-	    {
-	    	String temp = (String)props.get(key);
-	    	if(temp == null)
-	    		temp = "";
-	    	
-	    	return temp;
-	    }
 	
 	public DAVProfile(String filename, String hostname, String resource, String username, String password) {
 		this.filename = new String(filename);

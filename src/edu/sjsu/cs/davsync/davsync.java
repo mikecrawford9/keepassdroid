@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
+import com.keepassdroid.fileselect.FileDbHelper;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,10 +26,9 @@ import android.content.Context;
 public class davsync extends Activity {
 
     private Context context;
-    private File conffile;
     private File kdbfile;
     protected boolean changed;
-    //private DSDatabase db;
+	FileDbHelper dbHelp = App.fileDbHelper; // database for recent files
     private EditText[] field = new EditText[4]; // hostname, resource, username, password
     private Button[] button = new Button[4]; // save, clear, test, sync
 
@@ -57,19 +60,18 @@ public class davsync extends Activity {
         }
     }
 
+    // TODO: delete the database entry
     private void clear() {
     	for(int i = 0; i < field.length; i++)
-    		field[i].setText("");    
-    	if(conffile.exists())
-    		conffile.delete();
+    		field[i].setText("");
+    	dbHelp.delDavProfile(kdbfile.getAbsolutePath());
     }
     
     private void save() {
     	
     	
-    	try {
-    		// the following line is only used for validation of the field data 
-			DAVProfile prof = getCurrentProfile();
+    try {
+			dbHelp.addDavProfile(getCurrentProfile());
     	
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage("Saving...")
@@ -77,28 +79,8 @@ public class davsync extends Activity {
 			AlertDialog alert = builder.create();
 			alert.show();		
 			
-	    	Properties props = new Properties();
-	    	props.put("hostname",field[0].getText().toString());
-	    	props.put("resource",field[1].getText().toString()); 
-	    	props.put("username",field[2].getText().toString()); 
-	    	props.put("password",field[3].getText().toString()); 
-	    	try
-	    	{
-	    		if(!conffile.exists())
-	    			conffile.createNewFile();
-	    		
-	    	FileOutputStream fos = new FileOutputStream(conffile);
-	    	props.save(fos, "");
-	    	fos.close();
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		e.printStackTrace();
-	    	}
 	    	finish();
-    	
     } catch (ConfigurationException e1) {
-		// TODO Auto-generated catch block
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(e1.getMessage())
 		       .setCancelable(true);
@@ -160,13 +142,7 @@ public class davsync extends Activity {
         	throw new ConfigurationException("Please input a valid password");
         }
         
-        return new DAVProfile("", host, rsrc, user, pass);
-    }
-
-    // removes any text from all fields
-    private void clearTextFields() {
-        for(int i = 0; i < 4; i++)
-            field[i].setText("");
+        return new DAVProfile(kdbfile.getAbsolutePath(), host, rsrc, user, pass);
     }
 
     /** Called when the activity is first created. */
@@ -175,10 +151,11 @@ public class davsync extends Activity {
         changed = false;
         setContentView(R.layout.info);
         context = getApplicationContext();
-        //db = new DSDatabase(context);
-        String filepath = getIntent().getStringExtra("wdcfile");
         String kdbfilepath = getIntent().getStringExtra("kdbfile");
-        conffile = new File(filepath);
+        if( kdbfilepath == null ) {
+        	// FIXME: this shouldn't ever happen
+        	Log.w("davsync::onCreate","kdbfilepath not present, things will go pear-shaped soon!");
+        }
         kdbfile = new File(kdbfilepath);
                 
         /*
@@ -211,33 +188,15 @@ public class davsync extends Activity {
         field[2] = (EditText)findViewById(R.id.username);
         field[3] = (EditText)findViewById(R.id.password);
 
-        if(conffile.exists())
-        {
-        	try
-        	{
-        	FileInputStream fin = new FileInputStream(conffile);
-        	Properties props = new Properties();
-        	props.load(fin);
-        	fin.close();
-        	
-        	
-        	field[0].setText(getString(props,"hostname"));
-            field[1].setText(getString(props,"resource"));
-            field[2].setText(getString(props,"username"));
-            field[3].setText(getString(props,"password"));
-        	//read the file...
-        	}
-        	catch(Exception e) {
-        		e.printStackTrace();
-        	}
+        try {
+        	DAVProfile p = dbHelp.getDavProfile(kdbfilepath);
+        	field[0].setText(p.getHostname());
+        	field[1].setText(p.getResource());
+        	field[2].setText(p.getUsername());
+        	field[3].setText(p.getPassword());
+        } catch( ConfigurationException ce ) {
+        	// configuration doesn't exist, but thats okay - just don't set field values
         }
-        /*
-        Profile p = db.getProfile("");
-        field[0].setText(p.getHostname());
-        field[1].setText(p.getResource());
-        field[2].setText(p.getUsername());
-        field[3].setText(p.getPassword());
-        */
     }
     
     public String getString(Properties props, String key)
