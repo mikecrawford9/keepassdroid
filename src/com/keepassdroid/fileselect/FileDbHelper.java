@@ -51,7 +51,7 @@ public class FileDbHelper {
 			+ KEY_FILE_FILENAME + " text not null, " + KEY_FILE_KEYFILE + " text, "
 			+ KEY_FILE_UPDATED + " integer not null);";
 	private static final String DATABASE_CREATE_DAV =
-		"CREATE TABLE dav_profiles ( filename TEXT PRIMARY KEY, hostname TEXT, resource TEXT, username TEXT, password TEXT );";
+		"CREATE TABLE IF NOT EXISTS dav_profiles ( filename TEXT PRIMARY KEY, hostname TEXT, resource TEXT, username TEXT, password TEXT );";
 	
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
