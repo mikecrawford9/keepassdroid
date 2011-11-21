@@ -50,6 +50,9 @@ public class FileDbHelper {
 		"create table " + FILE_TABLE + " ( " + KEY_FILE_ID + " integer primary key autoincrement, " 
 			+ KEY_FILE_FILENAME + " text not null, " + KEY_FILE_KEYFILE + " text, "
 			+ KEY_FILE_UPDATED + " integer not null);";
+	// FIXME: we should not need the "IF NOT EXISTS" clause
+	// something in the table creation logic is wrong
+	// this is only a temporary quick fix
 	private static final String DATABASE_CREATE_DAV =
 		"CREATE TABLE IF NOT EXISTS dav_profiles ( filename TEXT PRIMARY KEY, hostname TEXT, resource TEXT, username TEXT, password TEXT );";
 	
